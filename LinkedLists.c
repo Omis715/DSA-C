@@ -32,20 +32,23 @@ void append (Node* LL, int number) {
     current->next->next = NULL;
 }
 
-void removeByValue (Node** LL, int value) {
+void removeByValue(Node** LL, int value) {
     Node* current = *LL;
-    if (current->value == value) {
-        Node* temp = *LL;
-        *LL = (*LL)->next;
-        free(temp);
+    Node* prev = NULL;
+    if (current != NULL && current->value == value) {
+        *LL = current->next;
+        free(current); 
         return;
     }
-    while (current->next->value != value) {
+    while (current != NULL && current->value != value) {
+        prev = current;
         current = current->next;
     }
-    Node* temp = current->next;
-    current->next = temp->next; 
-    free(temp);
+    if (current == NULL) {
+        return;
+    }
+    prev->next = current->next;
+    free(current);
 }
 
 void pop (Node* LL) {
